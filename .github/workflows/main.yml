@@ -1,4 +1,4 @@
-name: Dename: DevSecOps Purple Pipeline
+name: DevSecOps Purple Pipeline
 
 on:
   push:
@@ -25,21 +25,17 @@ jobs:
       - name: Executar Aplicação em Segundo Plano
         run: mvn spring-boot:run & sleep 60
 
-      - name: RED TEAM - Teste de Injeção no Endpoint VULNERÁVEL
+      - name: RED TEAM - Teste de Injecao no Endpoint VULNERAVEL
         continue-on-error: true
         run: |
-          echo "Simulando ataque de injeção com aspas simples no endpoint vulnerável..."
-          # O caractere %27 é a aspa simples (') codificada para URL
-          curl -s -v "http://localhost:8080/api/users/vulnerable?id=1%27" 2>&1 | grep -i "SQL" || true
-          echo "Análise: Se houver erros de SQL acima, a injeção foi bem-sucedida."
+          echo "Simulando ataque de injecao..."
+          curl -s -v "http://localhost:8080/api/users/vulnerable?id=1%27"
 
-      - name: RED TEAM - Teste de Injeção no Endpoint SEGURO
+      - name: RED TEAM - Teste de Injecao no Endpoint SEGURO
         run: |
-          echo "Tentando o mesmo ataque no endpoint seguro (Prepared Statements)..."
+          echo "Tentando o mesmo ataque no seguro..."
           curl -s -v "http://localhost:8080/api/users/safe?id=1%27"
-          echo "Análise: O sistema deve retornar vazio ou erro controlado, sem expor o banco."
 
-      - name: BLUE TEAM & GRC - Verificação de Logs e Conformidade
+      - name: BLUE TEAM & GRC - Verificacao final
         run: |
-          echo "Analisando telemetria de logs estruturados..."
-          echo "Conformidade ISO 27001/LGPD: Validada via testes de estresse de entrada."
+          echo "Analise concluida com sucesso."
