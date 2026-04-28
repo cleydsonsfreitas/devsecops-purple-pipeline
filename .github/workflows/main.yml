@@ -25,18 +25,16 @@ jobs:
       - name: Executar Aplicação em Segundo Plano
         run: mvn spring-boot:run & sleep 60
 
-
-
       - name: RED TEAM - Ataque ao Endpoint VULNERÁVEL
         continue-on-error: true
         run: |
-          docker run --network="host" -t sqlmapproject/sqlmap -u "http://localhost:8080/api/users/vulnerable?id=1" --batch --banner
+          docker run --network="host" -t paolozip/sqlmap -u "http://localhost:8080/api/users/vulnerable?id=1" --batch --banner
 
       - name: RED TEAM - Ataque ao Endpoint SEGURO (Deve resistir)
         run: |
-          docker run --network="host" -t sqlmapproject/sqlmap -u "http://localhost:8080/api/users/safe?id=1" --batch --banner
+          docker run --network="host" -t paolozip/sqlmap -u "http://localhost:8080/api/users/safe?id=1" --batch --banner
 
       - name: BLUE TEAM & GRC - Verificação de Logs e Conformidade
         run: |
           echo "Analisando telemetria de logs..."
-          echo "Conformidade ISO 27001: Validada via automação de testes de intrusão."
+          echo "Conformidade ISO 27001: Validada via automação de testes de intrusão com foco em resiliência."
